@@ -14,8 +14,16 @@ $(document).ready(function(){
 		sBd.iterateOnceUsingCollections();
 	})
 
+	$("#solve_cand").click(function(){
+		sBd.solveUsingCandidates();
+	})
+
+	$("#solve_coll").click(function(){
+		sBd.solveUsingCollections();
+	})
+
 	$("#solve").click(function(){
-		sBd.solve();
+		sBd.bigSolve();
 	})
 
 })
@@ -120,7 +128,18 @@ function SudokuBoard(boardString) {
 		do {
 			oldNumZeros = this.numZeros();
 			this.iterateOnceUsingCellCandidates();
-		} while (this.numZeros() != 0 && oldZeroCount != this.numZeros());
+		} while (this.numZeros() != 0 && oldNumZeros != this.numZeros());
+	}
+
+	this.solveUsingCollections = function() {
+		var oldNumZeros = this.numZeros();
+		do {
+			oldNumZeros = this.numZeros();
+			this.iterateOnceUsingCollections();
+		} while (this.numZeros() != 0 && oldNumZeros != this.numZeros());
+	}
+
+	this.bigSolve = function() {
 	}
 
 	this.solveWithACollection = function(cellIndices, color) {
