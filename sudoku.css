@@ -52,10 +52,10 @@ body {
 	border: 2px dotted grey;
 	padding: 2%;
 
-	width: 40%;
+	width: 50%;
 	height: 400px;
 }
 
 #sudoku_string {
-	width: 400px;
+	width: 600px;
 }

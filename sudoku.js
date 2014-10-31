@@ -30,20 +30,35 @@ function SudokuBoard(boardString) {
 				cell.cageNum = (Math.floor(i / 3) * 3) + Math.floor(j/3);
 				var selector = "#board tr:nth-child(" + (i+1) + ") td:nth-child(" + (j+1) + ")";
 				cell.selector = $(selector);
+				cell.selector.css("background-color", "white");
 				if (cell.value != 0) 
 					cell.selector.html(cell.value);
+				else
+					cell.selector.html("");
 
 				// FILL IN BOARD ARRAYS WITH APPROPRIATE VALUES AND INDICES
 				this.cells.push(cell);
 				cell.bd = this;
-				this.rowVals[i].push(cell.value);
 				this.rowInds[i].push(cell.indexNum);
-				this.colVals[j].push(cell.value);
 				this.colInds[j].push(cell.indexNum);
-				this.cageVals[cell.cageNum].push(cell.value);
 				this.cageInds[cell.cageNum].push(cell.indexNum);
 			}
 		}
+		this.updateBoard();
+	}
+
+	this.updateBoard = function() {
+		this.rowVals = [ [], [], [], [], [], [], [], [], [] ];
+		this.colVals = [ [], [], [], [], [], [], [], [], [] ];
+		this.cageVals = [ [], [], [], [], [], [], [], [], [] ];
+		for (var i=0; i<9; i++){
+			for (var j=0; j<9; j++){
+				var index = i*9 + j;
+				this.rowVals[i].push(this.cells[index].value);
+				this.colVals[j].push(this.cells[index].value);
+				this.cageVals[this.cells[index].cageNum].push(this.cells[index].value);
+			}
+		}		
 	}
 
 	this.fillInCell = function(cellNum, value, color) {
@@ -51,6 +66,7 @@ function SudokuBoard(boardString) {
 		this.cells[cellNum].selector.html(value);
 		this.cells[cellNum].selector.css("background-color", color);
 		this.cells[cellNum].value = value;
+		this.updateBoard();
 	}
 
 	this.solveCellUsingCellCandidates = function(cellNum) {
