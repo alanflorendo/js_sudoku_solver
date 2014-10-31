@@ -50,21 +50,51 @@ function SudokuBoard(boardString) {
 		this.boardString = this.boardString.replaceAt(cellNum, value);
 		this.cells[cellNum].selector.html(value);
 		this.cells[cellNum].selector.css("background-color", color);
+		this.cells[cellNum].value = value;
 	}
 
-	this.solveCell = function(cellNum) {
+	this.solveCellUsingCellCandidates = function(cellNum) {
 		var cell = this.cells[cellNum];
 		cell.setCandidates();
 		if (cell.value === "0" && cell.candidates.length === 1) {
 			this.fillInCell(cellNum, cell.candidates[0], "pink");
-			this.loadBoardToDOM();
 		}		
 	}
 
-	this.iterateOnce = function() {
+	this.iterateOnceUsingCellCandidates = function() {
 		for (var i=0; i<81; i++) {
-			this.solveCell(i);
+			this.solveCellUsingCellCandidates(i);
 		}
+	}
+
+	this.solveWithACollection = function(cellIndices, color) {
+		// a collection is a set of 9 indices for a row, column, or a cage
+		var len = cellIndices.length;
+		var candFreq = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0};
+		var candAvails = {"1": [], "2": [], "3": [], "4": [], "5": [], "6": [], "7": [], "8": [], "9": []};
+		
+		// set candidates for each cell in the collection
+		for (var i=0; i<len; i++) {
+			this.cells[cellIndices[i]].setCandidates();
+		}
+
+		// go thru each candidate to see which cells could be used for that candidate
+		for (var i=0; i<len; i++) {
+			var cell = this.cells[cellIndices[i]];
+			for (var j=0; j<cell.candidates.length; j++) {
+				candAvails[cell.candidates[j]].push(cellIndices[i]);
+			}
+		}
+
+		// if only one spot in the collection can be used for the candidate, fill it in
+		for (key in candAvails) {
+			console.log("KEY: " + key);
+			console.log("ARRAY FOR THIS KEY: " + candAvails[key]);
+			if (candAvails[key].length === 1) {
+				sBd.fillInCell(candAvails[key][0], key, color);
+			}
+		}
+
 	}
 
 }
@@ -80,9 +110,13 @@ function Cell(num) {
 	this.bd;
 
 	this.setCandidates = function() {
-		var allCandidates = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-		var rowsAndCols = this.bd.rowVals[this.rowNum].concat(this.bd.colVals[this.colNum]).unique();
-		var candsToEliminate = rowsAndCols.concat(this.bd.cageVals[this.cageNum]).unique();
-		this.candidates = allCandidates.diff( candsToEliminate );
+		if (this.value === "0") {
+			var allCandidates = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+			var rowsAndCols = this.bd.rowVals[this.rowNum].concat(this.bd.colVals[this.colNum]).unique();
+			var candsToEliminate = rowsAndCols.concat(this.bd.cageVals[this.cageNum]).unique();
+			this.candidates = allCandidates.diff( candsToEliminate );
+		} else {
+			this.candidates = [];
+		}
 	}
 }
