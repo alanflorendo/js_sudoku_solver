@@ -35,6 +35,7 @@ function SudokuBoard(boardString) {
 
 				// FILL IN BOARD ARRAYS WITH APPROPRIATE VALUES AND INDICES
 				this.cells.push(cell);
+				cell.bd = this;
 				this.rowVals[i].push(cell.value);
 				this.rowInds[i].push(cell.indexNum);
 				this.colVals[j].push(cell.value);
@@ -61,4 +62,12 @@ function Cell(num) {
 	this.indexNum;
 	this.candidates = [];
 	this.selector;
+	this.bd;
+
+	this.setCandidates = function() {
+		var allCandidates = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+		var rowsAndCols = this.bd.rowVals[this.rowNum].concat(this.bd.colVals[this.colNum]).unique();
+		var candsToEliminate = rowsAndCols.concat(this.bd.cageVals[this.cageNum]).unique();
+		this.candidates = allCandidates.diff( candsToEliminate );
+	}
 }
