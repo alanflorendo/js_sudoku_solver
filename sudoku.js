@@ -9,6 +9,7 @@ $(document).ready(function(){
 
 function SudokuBoard(boardString) {
 	this.boardString = boardString;
+	this.cells = [];
 	this.rowVals = [ [], [], [], [], [], [], [], [], [] ]
 	this.colVals = [ [], [], [], [], [], [], [], [], [] ]
 	this.cageVals = [ [], [], [], [], [], [], [], [], [] ]
@@ -33,15 +34,21 @@ function SudokuBoard(boardString) {
 					cell.selector.html(cell.value);
 
 				// FILL IN BOARD ARRAYS WITH APPROPRIATE VALUES AND INDICES
+				this.cells.push(cell);
 				this.rowVals[i].push(cell.value);
 				this.rowInds[i].push(cell.indexNum);
 				this.colVals[j].push(cell.value);
 				this.colInds[j].push(cell.indexNum);
-				console.log("Cage Num: " + cell.cageNum);
 				this.cageVals[cell.cageNum].push(cell.value);
 				this.cageInds[cell.cageNum].push(cell.indexNum);
 			}
 		}
+	}
+
+	this.fillInCell = function(cellNum, value, color) {
+		this.boardString = this.boardString.replaceAt(cellNum, value);
+		this.cells[cellNum].selector.html(value);
+		this.cells[cellNum].selector.css("background-color", color);
 	}
 
 }
