@@ -11,6 +11,11 @@ body {
 	background: aliceblue;
 }
 
+#solved {
+	color: green;
+	display: none;
+}
+
 #board {
 	border: 3px solid black;
 	display: inline-block;
@@ -52,10 +57,44 @@ body {
 	border: 2px dotted grey;
 	padding: 2%;
 
-	width: 40%;
-	height: 400px;
+	width: 50%;
+	height: 500px;
 }
 
 #sudoku_string {
-	width: 400px;
+	width: 600px;
+}
+
+
+#sLog {
+	margin-bottom:32px;
+	color:#000;
+}
+
+#sLog ul {
+	list-style:none;
+	padding: 5px;
+	height:195px;
+	overflow-y:scroll;
+	background-color:#fff;
+}
+
+#sLog li {
+	margin-bottom: 8px;
+}
+
+.blue {
+	color: blue;
+}
+
+.orange {
+	color: orange;
+}
+
+.green {
+	color: green;
+}
+
+.pink {
+	color: pink;
 }
