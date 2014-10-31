@@ -1,0 +1,61 @@
+header {
+	background-color: cornflowerblue;
+	height: 60px;
+	text-align: center;
+	padding-top: 20px;
+	margin-bottom: 20px;
+}
+
+body {
+	font-family: 'Nunito', sans-serif;	
+	background: aliceblue;
+}
+
+#board {
+	border: 3px solid black;
+	display: inline-block;
+	float: left;
+}
+
+#board td {
+	height: 50px;
+	width: 50px;
+	border-right: 1px dotted grey;
+	border-bottom: 1px dotted grey;
+
+	font-size: 1.5em;
+	text-align: center;
+}
+
+#board tr:nth-child(3) td {
+	border-bottom: 2px solid black;
+}
+
+#board tr:nth-child(6) td {
+	border-bottom: 2px solid black;
+}
+
+#board td:nth-child(3) {
+	border-right: 2px solid black;
+}
+
+#board td:nth-child(6) {
+	border-right: 2px solid black;
+}
+
+
+
+#solving_tools {
+	display: inline-block;
+	float: left;
+	margin-left: 5%;
+	border: 2px dotted grey;
+	padding: 2%;
+
+	width: 40%;
+	height: 400px;
+}
+
+#sudoku_string {
+	width: 400px;
+}
