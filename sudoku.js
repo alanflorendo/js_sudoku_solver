@@ -1,10 +1,15 @@
+$(document).ready(function(){
+	$("#load_board").click(function(){
+		var bdStr = $("#sudoku_string").val();
+		loadBoardToDOM(bdStr);
+	})
+})
+
 function loadBoardToDOM(boardString) {
-	var index = 0;
-	for (var i=1; i<=9; i++){
-		for (var j=1; j<=9; j++){
-			var selector = "#board tr:nth-child(" + i + ") td:nth-child(" + j + ")";
-			$(selector).html(boardString[index]);
-			index += 1;
+	for (var i=0; i<9; i++){
+		for (var j=0; j<9; j++){
+			var selector = "#board tr:nth-child(" + (i+1) + ") td:nth-child(" + (j+1) + ")";
+			$(selector).html(boardString[i*9+j]);
 		}
 	}
 }
