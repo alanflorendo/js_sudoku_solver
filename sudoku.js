@@ -52,6 +52,16 @@ function SudokuBoard(boardString) {
 		this.cells[cellNum].selector.css("background-color", color);
 	}
 
+	this.solveCell = function(cellNum) {
+		var cell = this.cells[cellNum];
+		cell.setCandidates();
+		if (cell.value === "0" && cell.candidates.length === 1) {
+			this.fillInCell(cellNum, cell.candidates[0], "pink");
+			this.loadBoardToDOM();
+		}		
+	}
+
+
 }
 
 function Cell(num) {
