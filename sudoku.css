@@ -66,17 +66,16 @@ body {
 }
 
 
-#word_scores {
+#sLog {
 	margin-bottom:32px;
-	color:#C7BFE0;
+	color:#000;
 }
 
-#word_scores ul {
+#sLog ul {
 	list-style:none;
 	padding-left:0;
 	height:195px;
 	overflow-y:scroll;
 	background-color:#fff;
-	/*text-transform:uppercase;*/
 }
 

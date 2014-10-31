@@ -31,6 +31,7 @@ $(document).ready(function(){
 function SudokuBoard(boardString) {
 	this.boardString = boardString;
 	this.cells = [];
+	this.sLog = new sLog(this);
 	this.rowVals = [ [], [], [], [], [], [], [], [], [] ];
 	this.colVals = [ [], [], [], [], [], [], [], [], [] ];
 	this.cageVals = [ [], [], [], [], [], [], [], [], [] ];
@@ -107,6 +108,7 @@ function SudokuBoard(boardString) {
 		this.cells[cellNum].selector.css("background-color", color);
 		this.cells[cellNum].value = value;
 		this.updateBoard();
+		this.sLog.log("Filled In Cell Num " + cellNum + " with value " + value);
 	}
 
 	this.solveCellUsingCellCandidates = function(cellNum) {
