@@ -102,20 +102,21 @@ function SudokuBoard(boardString) {
 		$("#solved").css("display", "inline-block");
 	}
 
-	this.fillInCell = function(cellNum, value, color) {
+	this.fillInCell = function(cellNum, value, color, strategy) {
+		this.sLog.processComment(strategy, cellNum, value);
 		this.boardString = this.boardString.replaceAt(cellNum, value);
 		this.cells[cellNum].selector.html(value);
 		this.cells[cellNum].selector.css("background-color", color);
 		this.cells[cellNum].value = value;
 		this.updateBoard();
-		this.sLog.log("Filled In Cell Num " + cellNum + " with value " + value, "blue");
+		// this.sLog.log("Filled In Cell Num " + cellNum + " with value " + value, "blue");
 	}
 
 	this.solveCellUsingCellCandidates = function(cellNum) {
 		var cell = this.cells[cellNum];
 		cell.setCandidates();
 		if (cell.value === "0" && cell.candidates.length === 1) {
-			this.fillInCell(cellNum, cell.candidates[0], "pink");
+			this.fillInCell(cellNum, cell.candidates[0], "lightblue", "candidate");
 		}		
 	}
 
@@ -144,7 +145,7 @@ function SudokuBoard(boardString) {
 	this.bigSolve = function() {
 	}
 
-	this.solveWithACollection = function(cellIndices, color) {
+	this.solveWithACollection = function(cellIndices, color, strategy) {
 		// a collection is a set of 9 indices for a row, column, or a cage
 		var len = cellIndices.length;
 		var candFreq = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0};
@@ -166,7 +167,7 @@ function SudokuBoard(boardString) {
 		// if only one spot in the collection can be used for the candidate, fill it in
 		for (key in candAvails) {
 			if (candAvails[key].length === 1) {
-				sBd.fillInCell(candAvails[key][0], key, color);
+				sBd.fillInCell(candAvails[key][0], key, color, strategy);
 			}
 		}
 
@@ -175,13 +176,13 @@ function SudokuBoard(boardString) {
 	this.solveThisCollection = function(collectionType, collectionNum, color) {
 		switch(collectionType) {
 			case "row":
-				this.solveWithACollection(this.rowInds[collectionNum], color);
+				this.solveWithACollection(this.rowInds[collectionNum], color, "collRow");
 				break;
 			case "col":
-				this.solveWithACollection(this.colInds[collectionNum], color);
+				this.solveWithACollection(this.colInds[collectionNum], color, "collCol");
 				break;
 			case "cage":
-				this.solveWithACollection(this.cageInds[collectionNum], color);
+				this.solveWithACollection(this.cageInds[collectionNum], color, "collCage");
 				break;
 		}
 	}
@@ -190,7 +191,7 @@ function SudokuBoard(boardString) {
 		for (var i=0; i<9; i++) {
 			this.solveThisCollection("row", i, "pink");
 			this.solveThisCollection("col", i, "orange");
-			this.solveThisCollection("cage", i, "yellow");
+			this.solveThisCollection("cage", i, "lightgreen");
 		}
 	}
 
