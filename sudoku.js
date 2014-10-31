@@ -108,7 +108,7 @@ function SudokuBoard(boardString) {
 		this.cells[cellNum].selector.css("background-color", color);
 		this.cells[cellNum].value = value;
 		this.updateBoard();
-		this.sLog.log("Filled In Cell Num " + cellNum + " with value " + value);
+		this.sLog.log("Filled In Cell Num " + cellNum + " with value " + value, "blue");
 	}
 
 	this.solveCellUsingCellCandidates = function(cellNum) {
