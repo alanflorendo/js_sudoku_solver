@@ -58,9 +58,25 @@ body {
 	padding: 2%;
 
 	width: 50%;
-	height: 400px;
+	height: 500px;
 }
 
 #sudoku_string {
 	width: 600px;
 }
+
+
+#word_scores {
+	margin-bottom:32px;
+	color:#C7BFE0;
+}
+
+#word_scores ul {
+	list-style:none;
+	padding-left:0;
+	height:195px;
+	overflow-y:scroll;
+	background-color:#fff;
+	/*text-transform:uppercase;*/
+}
+
