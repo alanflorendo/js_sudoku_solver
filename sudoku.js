@@ -88,13 +88,33 @@ function SudokuBoard(boardString) {
 
 		// if only one spot in the collection can be used for the candidate, fill it in
 		for (key in candAvails) {
-			console.log("KEY: " + key);
-			console.log("ARRAY FOR THIS KEY: " + candAvails[key]);
 			if (candAvails[key].length === 1) {
 				sBd.fillInCell(candAvails[key][0], key, color);
 			}
 		}
 
+	}
+
+	this.solveThisCollection = function(collectionType, collectionNum, color) {
+		switch(collectionType) {
+			case "row":
+				this.solveWithACollection(this.rowInds[collectionNum], color);
+				break;
+			case "col":
+				this.solveWithACollection(this.colInds[collectionNum], color);
+				break;
+			case "cage":
+				this.solveWithACollection(this.cageInds[collectionNum], color);
+				break;
+		}
+	}
+
+	this.iterateOnceUsingCollections = function() {
+		for (var i=0; i<9; i++) {
+			this.solveThisCollection("row", i, "pink");
+			this.solveThisCollection("col", i, "orange");
+			this.solveThisCollection("cage", i, "yellow");
+		}
 	}
 
 }
