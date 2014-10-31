@@ -11,6 +11,11 @@ body {
 	background: aliceblue;
 }
 
+#solved {
+	color: green;
+	display: none;
+}
+
 #board {
 	border: 3px solid black;
 	display: inline-block;

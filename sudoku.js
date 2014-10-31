@@ -5,17 +5,30 @@ $(document).ready(function(){
 		sBd = new SudokuBoard(bdStr)
 		sBd.loadBoardToDOM();
 	})
+
+	$("#iterate_cand").click(function(){
+		sBd.iterateOnceUsingCellCandidates();
+	})
+
+	$("#iterate_coll").click(function(){
+		sBd.iterateOnceUsingCollections();
+	})
+
+	$("#solve").click(function(){
+		sBd.solve();
+	})
+
 })
 
 function SudokuBoard(boardString) {
 	this.boardString = boardString;
 	this.cells = [];
-	this.rowVals = [ [], [], [], [], [], [], [], [], [] ]
-	this.colVals = [ [], [], [], [], [], [], [], [], [] ]
-	this.cageVals = [ [], [], [], [], [], [], [], [], [] ]
-	this.rowInds = [ [], [], [], [], [], [], [], [], [] ]
-	this.colInds = [ [], [], [], [], [], [], [], [], [] ]
-	this.cageInds = [ [], [], [], [], [], [], [], [], [] ]
+	this.rowVals = [ [], [], [], [], [], [], [], [], [] ];
+	this.colVals = [ [], [], [], [], [], [], [], [], [] ];
+	this.cageVals = [ [], [], [], [], [], [], [], [], [] ];
+	this.rowInds = [ [], [], [], [], [], [], [], [], [] ];
+	this.colInds = [ [], [], [], [], [], [], [], [], [] ];
+	this.cageInds = [ [], [], [], [], [], [], [], [], [] ];
 
 	this.loadBoardToDOM = function() {
 		for (var i=0; i<9; i++){
@@ -44,7 +57,20 @@ function SudokuBoard(boardString) {
 				this.cageInds[cell.cageNum].push(cell.indexNum);
 			}
 		}
+		$("#solved").css("display", "none");
 		this.updateBoard();
+	}
+
+	this.numZeros = function() {
+		var numZeros = 0;
+		for (var i=0; i<9; i++){
+			for (var j=0; j<9; j++){
+				var index = i*9 + j;
+				if (this.cells[index].value === "0")
+					numZeros += 1;
+			}
+		}
+		return numZeros;		
 	}
 
 	this.updateBoard = function() {
@@ -58,7 +84,13 @@ function SudokuBoard(boardString) {
 				this.colVals[j].push(this.cells[index].value);
 				this.cageVals[this.cells[index].cageNum].push(this.cells[index].value);
 			}
-		}		
+		}
+		if (this.numZeros() === 0)
+			this.solved();		
+	}
+
+	this.solved = function() {
+		$("#solved").css("display", "inline-block");
 	}
 
 	this.fillInCell = function(cellNum, value, color) {
@@ -81,6 +113,14 @@ function SudokuBoard(boardString) {
 		for (var i=0; i<81; i++) {
 			this.solveCellUsingCellCandidates(i);
 		}
+	}
+
+	this.solveUsingCandidates = function() {
+		var oldNumZeros = this.numZeros();
+		do {
+			oldNumZeros = this.numZeros();
+			this.iterateOnceUsingCellCandidates();
+		} while (this.numZeros() != 0 && oldZeroCount != this.numZeros());
 	}
 
 	this.solveWithACollection = function(cellIndices, color) {
