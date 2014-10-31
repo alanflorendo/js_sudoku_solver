@@ -61,6 +61,11 @@ function SudokuBoard(boardString) {
 		}		
 	}
 
+	this.iterateOnce = function() {
+		for (var i=0; i<81; i++) {
+			this.solveCell(i);
+		}
+	}
 
 }
 
