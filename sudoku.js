@@ -26,6 +26,12 @@ $(document).ready(function(){
 		sBd.bigSolve();
 	})
 
+	$("#sudoku_dropdown").change(function() {
+		var bdStr = $("#sudoku_dropdown").val();
+		sBd = new SudokuBoard(bdStr);
+		sBd.loadBoardToDOM();
+	})
+
 })
 
 function SudokuBoard(boardString) {
@@ -67,6 +73,7 @@ function SudokuBoard(boardString) {
 			}
 		}
 		$("#solved").css("display", "none");
+		$("#sLog ul").empty();
 		this.updateBoard();
 	}
 
